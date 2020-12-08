@@ -1,3 +1,5 @@
+:- [select].
+
 median(L, R) :-
   sort(L, SL),
   length(L, Length),
