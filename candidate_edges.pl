@@ -1,25 +1,18 @@
 % candidate_edges(+Edges, +NodesToCover, +CoveredNodes, -CandidateEdges).
-candidate_edges([N-_-M], NodesToCover, CoveredNodes, []) :-
-  concat(NodesToCover, CoveredNodes, Nodes),
-  not(members(N, M, Nodes)).
-candidate_edges([N-C-M], NodesToCover, CoveredNodes, [N-C-M]) :-
-  concat(NodesToCover, CoveredNodes, Nodes),
-  members(N, M, Nodes).
+candidate_edges([N-C-M], NodesToCover, CoveredNodes, [N-C-M]) :- members(N, M, NodesToCover, CoveredNodes).
+candidate_edges([N-_-M], NodesToCover, CoveredNodes, []) :- not(members(N, M, NodesToCover, CoveredNodes)).
 candidate_edges([N-C-M|Edges], NodesToCover, CoveredNodes, [N-C-M|CandidateEdges]) :-
-  concat(NodesToCover, CoveredNodes, Nodes),
-  members(N, M, Nodes),
-  candidate_edges(Edges, NodesToCover, CoveredNodes, CandidateEdges).
+  members(N, M, NodesToCover, CoveredNodes),
+  candidate_edges(Edges, NodesToCover, CoveredNodes, CandidateEdges),
+  !.
 candidate_edges([N-_-M|Edges], NodesToCover, CoveredNodes, CandidateEdges) :-
-  concat(NodesToCover, CoveredNodes, Nodes),
-  not(members(N, M, Nodes)),
+  not(members(N, M, NodesToCover, CoveredNodes)),
   candidate_edges(Edges, NodesToCover, CoveredNodes, CandidateEdges).
 
-% concat/2
-% checks if the first 2 lists are unifiable with
-% the first one being appended to the last one.
-concat([], L, L).
-concat([H|T], L, [H|R]) :- concat(T, L, R).
+% candidate_edges([n0-1-n2, n0-3-n1, n1-3-n3, n1-1-n2, n3-1-n4, n2-6-n4], [n0], [n2, n1, n3, n4], E).
+% -> E = [n0-1-n2, n0-3-n1].
 
-% members/3
-% checks whether the first 2 arguments are both a member of the third argument
-members(N, M, L) :- member(N, L), member(M, L).
+% members/4
+% true if Item1 is in List1 and Item2 in List2 or vice versa.
+members(Item1, Item2, List1, List2) :- member(Item1, List1), member(Item2, List2), !.
+members(Item1, Item2, List1, List2) :- member(Item2, List1), member(Item1, List2), !.
