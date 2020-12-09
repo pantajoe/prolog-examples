@@ -1,8 +1,7 @@
 :- [select].
 
 median(L, R) :-
-  sort(L, SL),
   length(L, Length),
-  Half is Length / 2,
-  Index is floor(Half),
+  Index is floor((Length / 2) - 0.5),
+  sort(L, SL),
   select(SL, Index, R).
