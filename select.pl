@@ -1,4 +1,4 @@
-select([H|_], 0, H).
-select([_|T], S, R) :-
-  X is S - 1,
-  select(T, X, R).
+select([Head|_], 0, Head) :- !.
+select([_|Tail], Index, Result) :-
+  NewIndex is Index - 1,
+  select(Tail, NewIndex, Result).

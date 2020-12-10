@@ -6,8 +6,9 @@
 % -> P = [n0,n1,n3], SC = 5.
 % -> P = [n0,n3], SC = 1.
 
-path_cost(S, T, [S,T], C) :- adjacent(S, T, C).
-path_cost(S, T, [S|P], C) :-
-  adjacent(S, X, C1),
-  path_cost(X, T, P, C2),
-  C is C1 + C2.
+path_cost(Start, Target, [Start,Target], Cost) :- adjacent(Start, Target, Cost).
+path_cost(Start, Target, [Start|Path], Cost) :-
+  adjacent(Start, X, Cost1),
+  path_cost(X, Target, Path, Cost2),
+  Cost is Cost1 + Cost2,
+  !.

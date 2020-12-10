@@ -1,6 +1,8 @@
 % candidate_edges(+Edges, +NodesToCover, +CoveredNodes, -CandidateEdges).
-candidate_edges([N-C-M], NodesToCover, CoveredNodes, [N-C-M]) :- members(N, M, NodesToCover, CoveredNodes).
-candidate_edges([N-_-M], NodesToCover, CoveredNodes, []) :- not(members(N, M, NodesToCover, CoveredNodes)).
+candidate_edges([N-C-M], NodesToCover, CoveredNodes, [N-C-M]) :-
+  members(N, M, NodesToCover, CoveredNodes).
+candidate_edges([N-_-M], NodesToCover, CoveredNodes, []) :-
+  not(members(N, M, NodesToCover, CoveredNodes)).
 candidate_edges([N-C-M|Edges], NodesToCover, CoveredNodes, [N-C-M|CandidateEdges]) :-
   members(N, M, NodesToCover, CoveredNodes),
   candidate_edges(Edges, NodesToCover, CoveredNodes, CandidateEdges),

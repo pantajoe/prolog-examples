@@ -1,8 +1,8 @@
 :- [select].
 
-median(L, R) :-
-  length(L, Length),
+median(List, Median) :-
+  length(List, Length),
   % select the lower median if the length of the list is even.
-  Index is floor((Length / 2) - 0.5),
-  sort(L, SL),
-  select(SL, Index, R).
+  Index is (Length - 1) // 2,
+  sort(List, SortedList),
+  select(SortedList, Index, Median).

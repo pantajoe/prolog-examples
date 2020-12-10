@@ -3,6 +3,8 @@ cheapest_edge([N-C-M], N-C-M).
 cheapest_edge([N-C-M|Edges], N-C-M) :-
   cheapest_edge(Edges, _-C1-_),
   C =< C1,
+  % remove cut in order to obtain ALL cheapest edges,
+  % i.e., all edges with the minimum cost.
   !.
 cheapest_edge([_|Edges], N-C-M) :- cheapest_edge(Edges, N-C-M).
 

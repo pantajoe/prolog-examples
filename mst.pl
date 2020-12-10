@@ -11,6 +11,7 @@ mst(Edges, MST) :-
   extend_forest(Edges, [FirstNode], Nodes, [], MST),
   !.
 
+% extend_forest(+Edges, +CoveredNodes, +NodesToCover, +ExistingGraph, -MST)
 extend_forest([], _, _, Graph, Graph).
 extend_forest(_, _, [], Graph, Graph).
 extend_forest(Edges, CoveredNodes, NodesToCover, Graph, Result) :-
@@ -35,17 +36,12 @@ concat_without_duplicates(L1, L2, R) :-
 
 % removes the first occurance of the item from the list.
 remove(_, [], []).
-remove(Item, [Item|T], T) :- !.
-remove(Item, [H|T], [H|R]) :- !, remove(Item, T, R).
+remove(Item, [Item|Tail], Tail) :- !.
+remove(Item, [Head|Tail], [Head|Rest]) :- remove(Item, Tail, Rest), !.
 
-% removes all occurances of the item from the list.
-remove_all(_, [], []) :- !.
-remove_all(Item, [Item|T], R) :- !, remove_all(Item, T, R).
-remove_all(Item, [H|T], [H|R]) :- !, remove_all(Item, T, R).
-
-% removes all occurances of all elements in the first input from the list.
+% removes the first occurances for every element of the first list from the second list.
 remove_multiple([], L, L).
 remove_multiple([Item|Items], List, Result) :-
-  remove_all(Item, List, R),
+  remove(Item, List, R),
   remove_multiple(Items, R, Result).
 

@@ -1,4 +1,4 @@
-zip([], [], []).
-zip(L, [], L).
-zip([], L, L).
-zip([H1|T1], [H2|T2], [H1,H2|R]) :- zip(T1, T2, R).
+zip([], [], []) :- !.
+zip(List, [], List) :- !.
+zip([], List, List) :- !.
+zip([Head1|Tail1], [Head2|Tail2], [Head1,Head2|Rest]) :- zip(Tail1, Tail2, Rest).

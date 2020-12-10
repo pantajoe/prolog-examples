@@ -1,5 +1,5 @@
 % extract_nodes(+Edges, -Nodes).
-extract_nodes([E1-_-E2], [E1,E2]).
+extract_nodes([E1-_-E2], [E1,E2]) :- !.
 extract_nodes([E1-_-E2|Edges], Nodes) :-
   extract_nodes(Edges, N1),
   list_to_set([E1,E2|N1], Nodes).
